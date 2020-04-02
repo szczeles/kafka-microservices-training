@@ -3,8 +3,10 @@ package pl.training.kafka.shipping;
 import org.apache.kafka.clients.consumer.*;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import pl.training.kafka.model.OrderChange;
 import pl.training.kafka.model.OrderStatus;
@@ -14,6 +16,9 @@ import java.util.*;
 
 @Service
 public class OrderChangeConsumer implements ApplicationRunner {
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
+
     private final KafkaConsumer<String, OrderChange> consumer;
 
     public OrderChangeConsumer() {
@@ -62,11 +67,14 @@ public class OrderChangeConsumer implements ApplicationRunner {
         if (record.value().getBefore() == null && record.value().getAfter().getStatus() == OrderStatus.CREATED) {
             System.out.println("Will generate label for order " + record.value().getAfter().getId());
 
-        }
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            kafkaTemplate.send("shipping-label-generated", record.value().getAfter().getId(),
+                    String.format("Shipping label for order %s generated", record.value().getAfter().getId()));
         }
     }
 }
