@@ -30,4 +30,13 @@ public class OrderChange {
     public void setTs(LocalDateTime ts) {
         this.ts = ts;
     }
+
+    @Override
+    public String toString() {
+        return "OrderChange{" +
+                "before=" + before +
+                ", after=" + after +
+                ", ts=" + ts +
+                '}';
+    }
 }

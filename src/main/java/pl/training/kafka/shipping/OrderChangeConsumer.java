@@ -7,6 +7,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Service;
 import pl.training.kafka.model.OrderChange;
+import pl.training.kafka.model.OrderStatus;
 
 import java.time.Duration;
 import java.util.*;
@@ -58,6 +59,10 @@ public class OrderChangeConsumer implements ApplicationRunner {
 
     private void processRecord(ConsumerRecord<String, OrderChange> record) {
         System.out.println(record);
+        if (record.value().getBefore() == null && record.value().getAfter().getStatus() == OrderStatus.CREATED) {
+            System.out.println("Will generate label for order " + record.value().getAfter().getId());
+
+        }
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
