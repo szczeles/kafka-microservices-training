@@ -1,0 +1,40 @@
+{
+  "type": "record",
+  "name": "Order",
+  "namespace": "pl.training.kafka.avromodel",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "userId",
+      "type": "string"
+    },
+    {
+      "name": "productId",
+      "type": "string"
+    },
+    {
+      "name": "quantity",
+      "type": "int"
+    },
+    {
+      "name": "status",
+      "type": {
+        "type": "enum",
+        "name": "OrderStatus",
+        "symbols": [
+          "CREATED", "PREPARED", "SHIPPED", "CANCELLED"
+        ]
+      }
+    },
+    {
+      "name": "updatedAt",
+      "type": {
+        "logicalType": "timestamp-millis",
+        "type": "long"
+      }
+    }
+  ]
+}

@@ -2,7 +2,7 @@ package pl.training.kafka.model;
 
 import java.time.LocalDateTime;
 
-public class Order {
+public class Order  implements  Cloneable{
     private String id;
     private String userId;
     private String productId;
