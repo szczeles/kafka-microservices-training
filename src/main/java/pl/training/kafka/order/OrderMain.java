@@ -28,6 +28,7 @@ public class OrderMain {
         params.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"); // kafka?
         params.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         params.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+        params.put(ConsumerConfig.GROUP_ID_CONFIG, "order-service");
         return new DefaultKafkaConsumerFactory(params);
     }
 
