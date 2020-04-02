@@ -36,7 +36,7 @@ public class KafkaStreamsBasedShippingService {
         );
 
         SpecificAvroSerde<Order> orderSerde = new SpecificAvroSerde<>();
-        userSerde.configure(
+        orderSerde.configure(
                 Collections.singletonMap(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081"),
                 false
         );
