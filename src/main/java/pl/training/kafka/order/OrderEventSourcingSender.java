@@ -29,7 +29,7 @@ public class OrderEventSourcingSender {
     }
 
     public void send(Order order) {
-        ProducerRecord producerRecord = new ProducerRecord("order-change", order.getId(), order);
+        ProducerRecord producerRecord = new ProducerRecord("order", order.getId(), order);
         producer.send(producerRecord);
     }
 }
