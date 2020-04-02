@@ -34,8 +34,8 @@ public class OrderCreatedNotificationConsumer implements ApplicationRunner {
         System.out.println("Consumer started");
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(Duration.ofSeconds(1));
+//            Thread.sleep(10000);
             for (ConsumerRecord<String, String> record : records) {
-                processRecord(record);
 
 
                 OffsetAndMetadata offsetAndMetadata = new OffsetAndMetadata(record.offset() + 1);
@@ -45,7 +45,11 @@ public class OrderCreatedNotificationConsumer implements ApplicationRunner {
 
                 // NextOffset.for(record).build() -> possible improvement
 
+                // first, move the offset of the current message
                 consumer.commitSync(objectObjectHashMap);
+
+                // then, process the message
+                processRecord(record);
             }
 //            consumer.commitSync();
         }
