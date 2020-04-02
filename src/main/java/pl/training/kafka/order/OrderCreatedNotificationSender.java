@@ -20,18 +20,13 @@ public class OrderCreatedNotificationSender {
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"); // kafka?
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "1000");
 
         producer = new KafkaProducer<>(properties);
     }
 
     public void send(String orderId) {
         ProducerRecord producerRecord = new ProducerRecord("order-created", orderId, String.format("New order created: %s", orderId));
-        try {
-            producer.send(producerRecord).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        producer.send(producerRecord);
     }
 }
